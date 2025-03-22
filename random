@@ -36,9 +36,9 @@ getgenv().Settings = {
     NoCooldownStealToggle = nil,
     NoCooldownAirDribbleToggle = nil,
     NoCooldownAirDashToggle = nil,
-    StyleLockDropdown =  "Shidou", "Kunigami", "Sae", "Aiku", "Rin", "Yukimiya", "Don Lorenzo",
+    StyleLockDropdown = "Shidou", "Kunigami", "Sae", "Aiku", "Rin", "Yukimiya", "Don Lorenzo",
     AutoSpinToggle = nil,
-    FlowLockDropdown =  "Snake", "Prodigy", "Awakened Genius", "Dribbler", "Soul Harvester",
+    FlowLockDropdown =  {"Snake", "Prodigy", "Awakened Genius", "Dribbler", "Soul Harvester"},
     AutoFlowToggle = nil,
     EffectsDropdown = nil,
     CosmeticsDropdown = nil,
@@ -434,7 +434,7 @@ do
         Description = "Select styles to stop spinning.",
         Values = {"Isagi", "Chigiri", "Bachira", "Otoya", "Hiori", "Gagamaru", "King", "Nagi", "Reo",  "Karasu", "Shidou", "Kunigami", "Sae", "Aiku", "Rin", "Yukimiya", "Don Lorenzo"}, -- Replace with actual style names
         Multi = true,
-        Default = {}
+        Default = {"Shidou", "Kunigami", "Sae", "Aiku", "Rin", "Yukimiya", "Don Lorenzo"}
     })
     StyleLockDropdown:OnChanged(function(Value)
         local Values = {}
@@ -451,7 +451,7 @@ do
         Description = "Select Flow to stop spinning.",
         Values = { "Ice", "Lightning", "Puzzle", "Monster", "Gale Burst", "Genius", "King's Instinct", "Trap", "Crow", "Demon Wings", "Chameleon", "Wild Card", "Snake", "Prodigy", "Awakened Genius", "Dribbler", "Soul Harvester"}, -- Actual flow names
         Multi = true,
-        Default = {}
+        Default = {"Snake", "Prodigy", "Awakened Genius", "Dribbler", "Soul Harvester"}
     })
     FlowLockDropdown:OnChanged(function(Value)
         local Values = {}
