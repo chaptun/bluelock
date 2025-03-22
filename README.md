@@ -28,7 +28,7 @@ getgenv().Settings = {
     AutoTeamForAutoFarmToggle = true,
     InstantGoalToggle = true,
     AutoHopToggle = true,
-    AutoHopThresholdInput = 4,
+    AutoHopThresholdInput = 5,
     KaiserToggle = nil,
     KaiserKeybide = nil,
     CurveShotProMaxToggle = nil,
@@ -901,29 +901,55 @@ do
             end
         end
     end
-    Function_Storage.autoHop = function()
-        local v = getgenv().Settings
-        while v.AutoHopToggle do
-            local t = tonumber(v.AutoHopThresholdInput) or 4
-            if #game:GetService("Players"):GetPlayers() <= t then
-                local s, p, sId = game:GetService("TeleportService"), game.JobId, game.PlaceId
-                local g = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. sId .. "/servers/Public?sortOrder=Asc&limit=100"))
+   Function_Storage.autoHop = function()
+    local v = getgenv().Settings
+
+    while v.AutoHopToggle do
+        local t = tonumber(v.AutoHopThresholdInput) or 4
+        local playerCount = #game:GetService("Players"):GetPlayers()
+        
+        if playerCount <= t then
+            print("🔄 กำลังค้นหาเซิร์ฟเวอร์ใหม่... (มีผู้เล่น " .. playerCount .. " คน)")
+
+            local s, p, sId = game:GetService("TeleportService"), game.JobId, game.PlaceId
+            
+            -- ใช้ pcall() เพื่อป้องกัน error จาก API
+            local success, g = pcall(function()
+                return game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. sId .. "/servers/Public?sortOrder=Asc&limit=100"))
+            end)
+
+            if success and g and g.data then
                 for _, d in ipairs(g.data) do
-                    if d.id ~= p and d.playing < d.maxPlayers then
-                        game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(state)
+                    if d.id ~= p and d.playing >= 6 and d.playing < d.maxPlayers then
+                        print("✅ พบเซิร์ฟเวอร์ใหม่! กำลังเปลี่ยนเซิร์ฟ... (เซิร์ฟเวอร์มีผู้เล่น " .. d.playing .. " คน)")
+                        
+                        -- เชื่อมต่อ OnTeleport แค่ครั้งเดียว
+                        local teleportConnection
+                        teleportConnection = game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(state)
                             if state == Enum.TeleportState.Started then
                                 queue_on_teleport([[loadstring(game:HttpGet(""))()]]) -- ใส่ลิงก์โหลดสคริปต์ใหม่
+                                teleportConnection:Disconnect() -- ป้องกันการเชื่อมต่อซ้ำ
                             end
                         end)
+
+                        -- เทเลพอร์ตไปเซิร์ฟเวอร์ใหม่
                         s:TeleportToPlaceInstance(sId, d.id, game:GetService("Players").LocalPlayer)
                         return
                     end
                 end
-                task.wait(3)
+
+                print("⚠️ ไม่พบเซิร์ฟเวอร์ที่มีผู้เล่น 6 คนขึ้นไป ลองใหม่ใน 5 วินาที")
+                task.wait(5) -- รอ 10 วินาทีแล้วลองใหม่
+            else
+                print("🚨 เกิดข้อผิดพลาดในการโหลดข้อมูลเซิร์ฟเวอร์! รอ 20 วินาทีแล้วลองใหม่")
+                task.wait(20) -- ถ้า API พังหรือถูกบล็อค รอ 30 วิแล้วลองใหม่
             end
-            task.wait(1)
         end
+        
+        task.wait(5) -- ปรับให้รอนานขึ้นก่อนเช็คใหม่
     end
+end
+
     Function_Storage.getRandomTargetCFrame = function(team)
         if team == "Home" then
             return goalCFrames.Away[math.random(1, #goalCFrames.Away)]
