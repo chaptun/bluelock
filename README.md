@@ -1,4 +1,4 @@
-repeat wait() until game:IsLoaded() and game.Players and game.Players.LocalPlayer and game.Players.LocalPlayer.Character
+repeat wait(3) until game:IsLoaded() and game.Players and game.Players.LocalPlayer and game.Players.LocalPlayer.Character
 getgenv().Settings = {
     WalkSpeedToggle = false,
     WalkSpeedInput = nil,
