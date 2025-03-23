@@ -432,9 +432,9 @@ do
     local StyleLockDropdown = Tabs.pageSpin:AddDropdown("StyleLockDropdown", {
         Title = "Style Lock",
         Description = "Select styles to stop spinning.",
-        Values = {"Isagi", "Chigiri", "Bachira", "Otoya", "Hiori", "Gagamaru", "King", "Nagi", "Reo",  "Karasu", "Shidou", "Kunigami", "Sae", "Aiku", "Rin", "Yukimiya", "Don Lorenzo"}, -- Replace with actual style names
+        Values = {"Isagi", "Chigiri", "Bachira", "Otoya", "Hiori", "Gagamaru", "King", "Nagi", "Reo",  "Karasu", "Shidou", "Kunigami", "Sae", "Aiku", "Rin", "Yukimiya", "Don Lorenzo", "NEL Isagi"}, -- Replace with actual style names
         Multi = true,
-        Default = {"Shidou", "Kunigami", "Sae", "Aiku", "Rin", "Yukimiya", "Don Lorenzo"}
+        Default = {"Shidou", "Kunigami", "Sae", "Aiku", "Rin", "Yukimiya", "Don Lorenzo", "NEL Isagi"}
     })
     StyleLockDropdown:OnChanged(function(Value)
         local Values = {}
@@ -449,9 +449,9 @@ do
     local FlowLockDropdown = Tabs.pageSpin:AddDropdown("FlowLockDropdown", {
         Title = "Flow Lock",
         Description = "Select Flow to stop spinning.",
-        Values = { "Ice", "Lightning", "Puzzle", "Monster", "Gale Burst", "Genius", "King's Instinct", "Trap", "Crow", "Demon Wings", "Chameleon", "Wild Card", "Snake", "Prodigy", "Awakened Genius", "Dribbler", "Soul Harvester"}, -- Actual flow names
+        Values = { "Ice", "Lightning", "Puzzle", "Monster", "Gale Burst", "Genius", "King's Instinct", "Trap", "Crow", "Demon Wings", "Chameleon", "Wild Card", "Snake", "Prodigy", "Awakened Genius", "Dribbler", "Soul Harvester", "Awakend Genius"}, -- Actual flow names
         Multi = true,
-        Default = {"Snake", "Prodigy", "Awakened Genius", "Dribbler", "Soul Harvester"}
+        Default = {"Snake", "Prodigy", "Awakened Genius", "Dribbler", "Soul Harvester", "Awakend Genius"}
     })
     FlowLockDropdown:OnChanged(function(Value)
         local Values = {}
